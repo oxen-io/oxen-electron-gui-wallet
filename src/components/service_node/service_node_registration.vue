@@ -1,57 +1,25 @@
 <template>
   <div class="service-node-registration">
-    <div class="q-pa-md">
-      <i18n
-        path="strings.serviceNodeRegistrationDescription"
-        tag="div"
-        class="tab-desc q-mb-lg"
-      >
-        <b place="registerCommand">register_service_node</b>
-        <b place="prepareCommand">prepare_registration</b>
-      </i18n>
-      <OxenField
-        :label="$t('fieldLabels.serviceNodeCommand')"
-        :error="$v.registration_string.$error"
-        :disabled="registration_status.sending"
-      >
-        <q-input
-          v-model.trim="registration_string"
-          type="textarea"
-          class="full-width text-area-oxen"
-          placeholder="register_service_node ..."
-          :disabled="registration_status.sending"
-          borderless
-          dense
-          @blur="$v.registration_string.$touch"
-          @paste="onPaste"
-        />
-      </OxenField>
-      <q-btn
-        class="register-button"
-        color="primary"
-        :label="$t('buttons.registerServiceNode')"
-        :disabled="registration_status.sending"
-        @click="register()"
-      />
+    <div class="q-px-xl q-pt-md">
+      <p class="tab-desc">
+        {{ $t("strings.registrationStakingMigrationOxenToSessionToken") }}
+        <span
+          style="cursor: pointer; text-decoration: underline;"
+          @click="oxenWebsiteHardfork11_1_0"
+          >Oxen {{ $t("strings.website") }}.</span
+        >
+      </p>
     </div>
-
-    <q-inner-loading :showing="registration_status.sending">
-      <q-spinner color="primary" size="30" />
-    </q-inner-loading>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import { required } from "vuelidate/lib/validators";
-import OxenField from "components/oxen_field";
 import WalletPassword from "src/mixins/wallet_password";
 
 export default {
   name: "ServiceNodeRegistration",
-  components: {
-    OxenField
-  },
   mixins: [WalletPassword],
   data() {
     return {
@@ -93,6 +61,12 @@ export default {
     }
   },
   methods: {
+    oxenWebsiteHardfork11_1_0() {
+      const url = "https://oxen.io/blog/oxen-anchor-hardfork-11-1-0";
+      this.$gateway.send("core", "open_url", {
+        url
+      });
+    },
     async register() {
       this.$v.registration_string.$touch();
 

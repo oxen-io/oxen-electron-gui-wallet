@@ -554,6 +554,8 @@ export default {
     saveToAddressBook: "Save to address book",
     seedWords: "Seed words",
     selectLanguage: "Select language",
+    registrationStakingMigrationOxenToSessionToken:
+      "Registration and staking into new Service Nodes is disabled due to the ongoing migration of Oxen to Session Token. Read more here: ",
     serviceNodeContributionDescription:
       "Staking contributes to the safety of the Oxen network. For your contribution, you earn OXEN. Once staked, you will have to wait either 15 or 30 days to have your OXEN unlocked, depending on if a stake was unlocked by a contributor or the node was deregistered. To learn more about staking, please visit the documentation on the",
     serviceNodeRegistrationDescription:

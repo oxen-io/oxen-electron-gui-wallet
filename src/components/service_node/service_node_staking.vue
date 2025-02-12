@@ -1,92 +1,15 @@
 <template>
   <div class="service-node-staking">
-    <div class="q-px-md q-pt-md">
+    <div class="q-px-xl q-pt-md">
       <p class="tab-desc">
-        {{ $t("strings.serviceNodeContributionDescription") }}
+        {{ $t("strings.registrationStakingMigrationOxenToSessionToken") }}
         <span
           style="cursor: pointer; text-decoration: underline;"
-          @click="oxenWebsite"
+          @click="oxenWebsiteHardfork11_1_0"
           >Oxen {{ $t("strings.website") }}.</span
         >
       </p>
-      <OxenField
-        :label="$t('fieldLabels.serviceNodeKey')"
-        :error="$v.service_node.key.$error"
-      >
-        <q-input
-          v-model.trim="service_node.key"
-          :dark="theme == 'dark'"
-          :placeholder="$t('placeholders.hexCharacters', { count: 64 })"
-          borderless
-          dense
-          @blur="$v.service_node.key.$touch"
-        />
-      </OxenField>
-      <OxenField
-        :label="$t('fieldLabels.amount')"
-        class="q-mt-md"
-        :error="$v.service_node.amount.$error"
-      >
-        <q-input
-          v-model.trim="service_node.amount"
-          :dark="theme == 'dark'"
-          type="number"
-          min="0"
-          :max="unlocked_balance / 1e9"
-          placeholder="0"
-          borderless
-          dense
-          @blur="$v.service_node.amount.$touch"
-        />
-        <q-btn
-          color="primary"
-          :text-color="theme == 'dark' ? 'white' : 'dark'"
-          :label="$t('buttons.min')"
-          :disable="!areButtonsEnabled()"
-          @click="service_node.amount = minStake(service_node.key)"
-        />
-        <q-btn
-          color="primary"
-          :text-color="theme == 'dark' ? 'white' : 'dark'"
-          :label="$t('buttons.max')"
-          :disable="!areButtonsEnabled()"
-          @click="service_node.amount = maxStake(service_node.key)"
-        />
-      </OxenField>
-      <div class="submit-button">
-        <q-btn
-          :disable="!is_able_to_send"
-          color="primary"
-          :label="$t('buttons.stake')"
-          @click="stake()"
-        />
-        <q-btn
-          :disable="!is_able_to_send"
-          color="accent"
-          :label="$t('buttons.sweepAll')"
-          @click="sweepAllWarning()"
-        />
-      </div>
     </div>
-    <ServiceNodeContribute
-      :awaiting-service-nodes="awaiting_service_nodes"
-      class="contribute"
-      @contribute="fillStakingFields"
-    />
-    <ConfirmTransactionDialog
-      :show="confirmSweepAll"
-      :amount="confirmFields.totalAmount"
-      :is-blink="confirmFields.isBlink"
-      :send-to="confirmFields.destination"
-      :fee="confirmFields.totalFees"
-      :on-confirm-transaction="onConfirmTransaction"
-      :on-cancel-transaction="onCancelTransaction"
-    />
-    <q-inner-loading
-      :showing="stake_status.sending || sweep_all_status.sending"
-    >
-      <q-spinner color="primary" size="30" />
-    </q-inner-loading>
   </div>
 </template>
 
@@ -95,22 +18,14 @@ const objectAssignDeep = require("object-assign-deep");
 import { mapState } from "vuex";
 import { required, decimal } from "vuelidate/lib/validators";
 import { service_node_key, greater_than_zero } from "src/validators/common";
-import OxenField from "components/oxen_field";
 import WalletPassword from "src/mixins/wallet_password";
 import ConfirmDialogMixin from "src/mixins/confirm_dialog_mixin";
-import ServiceNodeContribute from "./service_node_contribute";
 import ServiceNodeMixin from "src/mixins/service_node_mixin";
-import ConfirmTransactionDialog from "components/confirm_tx_dialog";
 
 const DO_NOTHING = 10;
 
 export default {
   name: "ServiceNodeStaking",
-  components: {
-    OxenField,
-    ServiceNodeContribute,
-    ConfirmTransactionDialog
-  },
   mixins: [WalletPassword, ConfirmDialogMixin, ServiceNodeMixin],
   data() {
     return {
@@ -160,8 +75,7 @@ export default {
         node.contributors.find(
           c => c.address === this.award_address && c.amount == 0
         );
-      const isAwaitingContribution = node =>
-        !node.active && !node.funded;
+      const isAwaitingContribution = node => !node.active && !node.funded;
       const isAwaitingContributionNonReserved = node =>
         node.requested_unlock_height === 0 &&
         isAwaitingContribution(node) &&
@@ -284,8 +198,8 @@ export default {
     }
   },
   methods: {
-    oxenWebsite() {
-      const url = "https://oxen.io/";
+    oxenWebsiteHardfork11_1_0() {
+      const url = "https://oxen.io/blog/oxen-anchor-hardfork-11-1-0";
       this.$gateway.send("core", "open_url", {
         url
       });
