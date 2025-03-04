@@ -17,11 +17,20 @@ runs:
       uses: microsoft/setup-msbuild@v2
       if: runner.os == 'Windows'
 
-      # with:
-      #   vs-version: "[16.4,16.5)"
-    - name: Download latest oxen core bins
+    - name: Download latest oxen core bins windows
       shell: bash
+      if: runner.os == 'Windows'
       run: ./tools/download-oxen-files.sh https://oxen.rocks/oxen-io/oxen-core/oxen-stable-win-LATEST.zip
+
+    - name: Download latest oxen core bins macos
+      shell: bash
+      if: runner.os == 'macOS'
+      run: ./tools/download-oxen-files.sh https://oxen.rocks/oxen-io/oxen-core/oxen-stable-macos-LATEST.tar.xz
+
+    - name: Download latest oxen core bins linux
+      shell: bash
+      if: runner.os == 'Linux'
+      run: ./tools/download-oxen-files.sh https://oxen.rocks/oxen-io/oxen-core/oxen-stable-linux-LATEST.tar.xz
 
     - name: Install dependencies
       shell: bash
