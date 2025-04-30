@@ -165,6 +165,12 @@ function createWindow() {
 }
 
 app.on("ready", () => {
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.openDevTools({
+      mode: "bottom",
+      activate: false
+    });
+  }
   checkForUpdate(
     () => mainWindow,
     autoUpdater => {
