@@ -5,7 +5,7 @@
         {{ $t("strings.registrationStakingMigrationOxenToSessionToken") }}
         <span
           style="cursor: pointer; text-decoration: underline;"
-          @click="oxenWebsiteHardfork11_1_0"
+          @click="oxenWebsiteHardfork11_2_0"
           >Oxen {{ $t("strings.website") }}.</span
         >
       </p>
@@ -198,8 +198,8 @@ export default {
     }
   },
   methods: {
-    oxenWebsiteHardfork11_1_0() {
-      const url = "https://oxen.io/blog/oxen-anchor-hardfork-11-1-0";
+    oxenWebsiteHardfork11_2_0() {
+      const url = "https://oxen.io/blog/oxen-anchor-hardfork-11-2-0";
       this.$gateway.send("core", "open_url", {
         url
       });

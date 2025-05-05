@@ -21,7 +21,7 @@ Please submit any changes as pull requests to the development branch, all change
 #### Commands
 
 ```
-nvm use 14.11.0
+nvm use 14.14.0 # check .nvmrc for the current version required
 npm install -g @quasar/cli
 git clone https://github.com/oxen-io/oxen-electron-gui-wallet
 cd oxen-electron-gui-wallet

@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { notarize } = require("electron-notarize");
+const { notarize } = require("@electron/notarize");
 
 /*
  Pre-requisites: https://github.com/electron/electron-notarize#prerequisites
@@ -41,6 +41,9 @@ exports.default = async function notarizing(context) {
     appleId: SIGNING_APPLE_ID,
     appleIdPassword: SIGNING_APP_PASSWORD
   };
-  if (!isEmpty(SIGNING_TEAM_ID)) options.teamId = SIGNING_TEAM_ID;
+  if (!isEmpty(SIGNING_TEAM_ID)) {
+    options.ascProvider = SIGNING_TEAM_ID;
+    options.teamId = SIGNING_TEAM_ID;
+  }
   return notarize(options);
 };

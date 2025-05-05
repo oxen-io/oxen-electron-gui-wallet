@@ -132,10 +132,6 @@ export class Backend {
       {
         host: "public-eu.optf.ngo",
         port: "22023"
-      },
-      {
-        host: "oxen-rpc.caliban.org",
-        port: "22023"
       }
     ];
 

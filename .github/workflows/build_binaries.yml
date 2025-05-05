@@ -1,0 +1,89 @@
+name: Build releases
+
+on:
+  push:
+    branches:
+      - master
+      - development
+
+  pull_request:
+    branches:
+      - development
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # we want to publish on "push to master" only. When we don't want to publish, we want to upload artefacts
+  SHOULD_PUBLISH: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - run: git config --global core.autocrlf false
+
+      - name: Checkout git repo
+        uses: actions/checkout@v4
+
+      - name: Setup & Build
+        uses: ./actions/setup_and_build
+
+      - name: Build for linux
+        run: |
+          npm run build
+      - name: Build & publish
+        run: |
+          npm run build-publish
+
+  build_windows:
+    runs-on: windows-2022
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - run: git config --global core.autocrlf false
+
+      - name: Checkout git repo
+        uses: actions/checkout@v4
+
+      - name: Setup & Build
+        uses: ./actions/setup_and_build
+
+      - name: Build for windows
+        run: |
+          npm run windows
+      - name: Build & publish
+        run: |
+          npm run windows-publish
+
+  build_macos_x64:
+    runs-on: macos-13
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MAC_CERTIFICATE: ${{ secrets.MAC_CERTIFICATE }}
+      MAC_CERTIFICATE_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+      SIGNING_APPLE_ID: ${{ secrets.SIGNING_APPLE_ID }}
+      SIGNING_APP_PASSWORD: ${{ secrets.SIGNING_APP_PASSWORD }}
+      SIGNING_TEAM_ID: ${{ secrets.SIGNING_TEAM_ID }}
+    steps:
+      - run: git config --global core.autocrlf false
+
+      - name: Checkout git repo
+        uses: actions/checkout@v4
+
+      - name: Setup & Build
+        uses: ./actions/setup_and_build
+
+      - name: Build for macos
+        run: |
+          npm run build
+
+      - name: Build & publish
+        run: |
+          source ./tools/setup-mac-certificate.sh
+          npm run build-publish
