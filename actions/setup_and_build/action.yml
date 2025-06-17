@@ -20,17 +20,17 @@ runs:
     - name: Download latest oxen core bins windows
       shell: bash
       if: runner.os == 'Windows'
-      run: ./tools/download-oxen-files.sh https://github.com/oxen-io/oxen-core/releases/download/v11.3.1/oxen-win-x64-11.3.1.zip
+      run: ./tools/download-oxen-files.sh https://github.com/oxen-io/oxen-core/releases/download/v11.4.0/oxen-win-x64-11.4.0.zip
 
     - name: Download latest oxen core bins macos
       shell: bash
       if: runner.os == 'macOS'
-      run: ./tools/download-oxen-files.sh https://github.com/oxen-io/oxen-core/releases/download/v11.3.1/oxen-macos-x86_64-11.3.1.tar.xz
+      run: ./tools/download-oxen-files.sh https://github.com/oxen-io/oxen-core/releases/download/v11.4.0/oxen-macos-x86_64-11.4.0.tar.xz
 
     - name: Download latest oxen core bins linux
       shell: bash
       if: runner.os == 'Linux'
-      run: ./tools/download-oxen-files.sh https://github.com/oxen-io/oxen-core/releases/download/v11.3.1/oxen-linux-x86_64-11.3.1.tar.xz
+      run: ./tools/download-oxen-files.sh https://github.com/oxen-io/oxen-core/releases/download/v11.4.0/oxen-linux-x86_64-11.4.0.tar.xz
 
     - name: Install dependencies
       shell: bash
